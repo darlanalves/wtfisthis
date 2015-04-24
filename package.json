@@ -1,0 +1,22 @@
+{
+  "name": "wtfisthis",
+  "version": "0.1.0",
+  "description": "Discover what lies behind any URL",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/darlanalves/wtfisthis"
+  },
+  "author": {
+    "name": "Darlan Alves",
+    "email": "me@darlanalv.es"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/darlanalves/wtfisthis/issues"
+  },
+  "homepage": "https://github.com/darlanalves/wtfisthis"
+}
