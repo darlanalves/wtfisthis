@@ -18,5 +18,14 @@
   "bugs": {
     "url": "https://github.com/darlanalves/wtfisthis/issues"
   },
-  "homepage": "https://github.com/darlanalves/wtfisthis"
+  "homepage": "https://github.com/darlanalves/wtfisthis",
+  "dependencies": {
+    "http-server": "^0.8.0",
+    "request": "^2.55.0"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "proxyquire": "^1.4.0",
+    "sinon": "^1.14.1"
+  }
 }
