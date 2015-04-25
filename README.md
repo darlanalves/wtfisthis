@@ -6,10 +6,48 @@ video, and so on.
 
 ## How to use
 
-Make a call to this endpoint and you get a JSON with the good stuff, like this:
+Make a call to the API endpoint:
+
+`GET /api/:url`
+
+The URL must be encoded, so `https://images.org/image.jpg` becomes `https%3A%2F%2Fimages.org%2Fimage.jpg`
+
+The response will be like this:
 
 ```
-GET /api/[url-encoded]
+{
+  "error": false,
+  "code": 200,
+  "is": {
+    "image": true,
+    "audio": false,
+    "video": false,
+    "html": false,
+    "xml": false,
+    "css": false,
+    "javascript": false
+  },
+  "content": {
+    "type": "image/jpeg",
+    "length": "106820"
+  },
+  "url": {
+    "isSsl": false,
+    "isHttp": true,
+    "protocol": "http",
+    "host": "images.org",
+    "port": null,
+    "hostName": "images.org",
+    "hash": null,
+    "search": null,
+    "query": null,
+    "queryParams": {},
+    "pathName": "/image.jpg",
+    "path": "/image.jpg",
+    "href": "http://images.org/image.jpg"
+  }
+}
+
 ```
 
 ## TO DO
