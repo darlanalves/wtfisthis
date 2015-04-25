@@ -6,7 +6,9 @@ var app = require('./lib/app'),
 
 	options = {
 		before: [app],
-		cors: true
+		cors: true,
+		showDir: 'false',
+		autoIndex: 'false'
 	},
 
 	server = httpServer.createServer(options),
