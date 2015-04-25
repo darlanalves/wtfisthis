@@ -9,4 +9,8 @@ request.pushResponse = function(response) {
 	request.responses.push(response);
 };
 
+request.reset = function() {
+	request.responses = [];
+};
+
 module.exports = request;

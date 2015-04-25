@@ -1,14 +1,16 @@
 var expect = require('expect.js');
-var requestMock = require('./request.mock');
-var responseMock = require('./response.mock');
+var RequestMock = require('./request.mock');
+var ResponseMock = require('./response.mock');
 var proxyquire = require('proxyquire');
 
 var Request = proxyquire('../lib/request', {
-	request: requestMock
+	request: RequestMock
 });
 
 describe('Request', function() {
 	describe('#fetch(url, callback)', function() {
+		afterEach(RequestMock.reset);
+
 		it('should fetch a given URL', function() {
 			var url = 'http://www.example.com/';
 			var error, response;
@@ -18,9 +20,9 @@ describe('Request', function() {
 				response = r;
 			};
 
-			requestMock.pushResponse({
+			RequestMock.pushResponse({
 				error: null,
-				response: responseMock.createResponse(),
+				response: ResponseMock.createResponse(),
 				body: 'body'
 			});
 
@@ -42,14 +44,14 @@ describe('Request', function() {
 				response = r;
 			};
 
-			var redirection = responseMock.createResponse();
+			var redirection = ResponseMock.createResponse();
 
 			redirection.statusCode = 200;
 			redirection.request = {
 				href: finalUrl
 			};
 
-			requestMock.pushResponse({
+			RequestMock.pushResponse({
 				error: null,
 				response: redirection,
 				body: 'body'

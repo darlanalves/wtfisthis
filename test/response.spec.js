@@ -10,7 +10,7 @@ describe('Response', function() {
 
 			response._body = body;
 
-			response.setHeader('content-type', 'text/css');
+			response.setHeader('content-type', 'text/css; charset=ISO-8859-1');
 			response.setHeader('content-length', 128);
 			response.statusCode = 200;
 
