@@ -1,31 +1,74 @@
 'use strict';
 
 var expect = require('expect.js');
-var proxyquire = require('proxyquire');
 var sinon = require('sinon');
-var request = require('./request.mock.js');
+var app = require('../lib/app');
+// var request = require('./request.mock');
+var response = require('./response.mock');
+var proxyquire = require('proxyquire');
+
+var RequestMock = {};
+var ResponseMock = {};
+
 var app = proxyquire('../lib/app', {
-	request: request
+	'./request': RequestMock,
+	'./response': ResponseMock
 });
 
 describe('app(req, res): the app is a middleware that handles a request and creates the response as JSON', function() {
-	beforeEach(request.reset);
+	it('should parse the url parameter and fetch the details', function() {
+		var URL = 'http://www.google.com/';
 
-	describe('should parse the url parameter and request it', function() {
-		var URL = 'http://www.google.com';
+		RequestMock.fetch = function(url, callback) {
+			RequestMock.args = {
+				url: url,
+				callback: callback
+			};
+		};
+
+		ResponseMock.response = {
+			code: 200
+		};
+
+		ResponseMock.create = function(error, response) {
+			ResponseMock.createArgs = {
+				error: error,
+				response: response
+			};
+
+			return ResponseMock.response;
+		};
+
+		ResponseMock.createUrlObject = function() {
+			return {};
+		};
 
 		var req = {
-			url: '?url=' + encodeURIComponent(URL)
+			url: '/api/' + encodeURIComponent(URL)
 		};
 
-		var res = {
-			setHeader: sinon.spy(),
-			end: sinon.spy()
-		};
+		var res = response.createResponse();
+		res.emit = sinon.spy();
+		res.end = sinon.spy();
 
 		app(req, res);
 
-		expect(request.response.statusCode).to.be(200);
-		expect(request.spy.calledWith(URL)).to.be(true);
+		expect(RequestMock.args.url).to.be(URL);
+
+		var remoteResponse = {
+			_href: URL
+		};
+
+		RequestMock.args.callback(null, remoteResponse);
+
+		expect(ResponseMock.createArgs.error).to.be(null);
+		expect(ResponseMock.createArgs.response).to.be(remoteResponse);
+
+		expect(ResponseMock.response.redirected).to.be(false);
+
+		expect(res.statusCode).to.be(ResponseMock.response.code);
+		expect(res.headers['content-type']).to.be('application/json');
+		expect(res.end.called).to.be(true);
+		expect(res.emit.calledWith('next')).to.be(true);
 	});
 });
