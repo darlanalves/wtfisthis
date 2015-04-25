@@ -1,4 +1,3 @@
-var sinon = require('sinon');
 var expect = require('expect.js');
 var requestMock = require('./request.mock');
 var responseMock = require('./response.mock');
@@ -44,20 +43,15 @@ describe('Request', function() {
 			};
 
 			var redirection = responseMock.createResponse();
-			var finalResponse = responseMock.createResponse();
 
-			redirection.statusCode = 302;
-			redirection.setHeader('location', finalUrl);
+			redirection.statusCode = 200;
+			redirection.request = {
+				href: finalUrl
+			};
 
 			requestMock.pushResponse({
 				error: null,
 				response: redirection,
-				body: ''
-			});
-
-			requestMock.pushResponse({
-				error: null,
-				response: finalResponse,
 				body: 'body'
 			});
 
