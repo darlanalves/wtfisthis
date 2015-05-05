@@ -12,6 +12,15 @@ describe('UrlParser', function() {
 			expect(urlData.options.format).to.be('json');
 		});
 
+		it('should return an object with properties of an URL requested via query string', function() {
+			var url = '/api/?url=' + encodeURIComponent('http://www.google.com/') + '&graph=true&format=json';
+			var urlData = urlParser.parse(url);
+
+			expect(urlData.url).to.be('http://www.google.com/');
+			expect(urlData.options.graph).to.be(true);
+			expect(urlData.options.format).to.be('json');
+		});
+
 		it('should return false for a invalid URL', function() {
 			var urlData = urlParser.parse('');
 
