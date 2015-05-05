@@ -8,7 +8,7 @@ var Request = proxyquire('../lib/request', {
 });
 
 describe('Request', function() {
-	describe('#fetch(url, callback)', function() {
+	describe('#fetch(url, options, callback)', function() {
 		afterEach(RequestMock.reset);
 
 		it('should fetch a given URL', function() {
@@ -26,7 +26,7 @@ describe('Request', function() {
 				body: 'body'
 			});
 
-			Request.fetch(url, callback);
+			Request.fetch(url, {}, callback);
 
 			expect(error).to.be(null);
 			expect(response).not.to.be(undefined);
@@ -57,7 +57,7 @@ describe('Request', function() {
 				body: 'body'
 			});
 
-			Request.fetch(initialUrl, callback);
+			Request.fetch(initialUrl, {}, callback);
 
 			expect(error).to.be(null);
 			expect(response).not.to.be(undefined);
